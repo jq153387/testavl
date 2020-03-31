@@ -1,12 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const Todo = require("../models/Test");
+const List = require("../models/Test");
 
-router.get("/Test", (req, res, next) => {
+router.get("/test", (req, res, next) => {
     //this will return all the data, exposing only the id and action field to the client
-    Todo.find({}, "action")
-        .then(data => res.json(data))
+    List.find({})
+        .then(data => {
+            console.log(data);
+
+            return res.json(data);
+        })
         .catch(next);
+    // List.find({}, function(err, users) {
+    //     res.render("/usersList", { users: users });
+    // });
 });
 
 module.exports = router;
