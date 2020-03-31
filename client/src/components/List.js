@@ -5,7 +5,9 @@ const List = ({ todos, deleteTodo }) => {
     useEffect(() => {
         getList();
     }, []);
+
     const [data, setData] = useState([]);
+    const [search, setSearch] = useState([]);
     const getList = () => {
         axios
             .get("/api/test")
@@ -15,6 +17,14 @@ const List = ({ todos, deleteTodo }) => {
                 }
             })
             .catch(err => console.log(err));
+    };
+    const updateSearch = value => {
+        setSearch(value);
+    };
+    const filterData = () => {
+        return data.filter(item => {
+            return item.title.indexOf(search) !== -1;
+        });
     };
     const day_list = [
         { day: ["日", "SUN"] },
@@ -30,30 +40,37 @@ const List = ({ todos, deleteTodo }) => {
     const day = date.getDay(); // or "new Date().getDay()";
 
     return (
-        <ul className="list">
-            {data && data.length > 0 ? (
-                data.map(item => {
-                    return (
-                        <li key={item._id}>
-                            <div
-                                style={{
-                                    marginBottom: "10px",
-                                    fontSize: "20px"
-                                }}
-                            >
-                                {item.title}
-                            </div>
-                            <div>
-                                今日星期{day_list[day].day[0]} 營業時間:
-                                {item[day_list[day].day[1]]}
-                            </div>
-                        </li>
-                    );
-                })
-            ) : (
-                <li>No data(s)</li>
-            )}
-        </ul>
+        <div>
+            <input
+                type="text"
+                placeholder="查詢店家名稱"
+                onChange={e => updateSearch(e.target.value)}
+            />
+            <ul className="list">
+                {filterData() && filterData().length > 0 ? (
+                    filterData().map(item => {
+                        return (
+                            <li key={item._id}>
+                                <div
+                                    style={{
+                                        marginBottom: "10px",
+                                        fontSize: "20px"
+                                    }}
+                                >
+                                    {item.title}
+                                </div>
+                                <div>
+                                    今日星期{day_list[day].day[0]} 營業時間:
+                                    {item[day_list[day].day[1]]}
+                                </div>
+                            </li>
+                        );
+                    })
+                ) : (
+                    <li>No data(s)</li>
+                )}
+            </ul>
+        </div>
     );
 };
 
