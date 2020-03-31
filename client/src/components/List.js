@@ -16,11 +16,39 @@ const List = ({ todos, deleteTodo }) => {
             })
             .catch(err => console.log(err));
     };
+    const day_list = [
+        { day: ["日", "SUN"] },
+        { day: ["一", "SUN"] },
+        { day: ["二", "SUN"] },
+        { day: ["三", "SUN"] },
+        { day: ["四", "SUN"] },
+        { day: ["五", "SUN"] },
+        { day: ["六", "SUN"] }
+    ];
+
+    const date = new Date();
+    const day = date.getDay(); // or "new Date().getDay()";
+
     return (
-        <ul>
+        <ul className="list">
             {data && data.length > 0 ? (
                 data.map(item => {
-                    return <li key={item._id}>{item.title}</li>;
+                    return (
+                        <li key={item._id}>
+                            <div
+                                style={{
+                                    marginBottom: "10px",
+                                    fontSize: "20px"
+                                }}
+                            >
+                                {item.title}
+                            </div>
+                            <div>
+                                今日星期{day_list[day].day[0]} 營業時間:
+                                {item[day_list[day].day[1]]}
+                            </div>
+                        </li>
+                    );
                 })
             ) : (
                 <li>No data(s)</li>
