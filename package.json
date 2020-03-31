@@ -6,7 +6,8 @@
     "scripts": {
         "start": "node index.js",
         "start-watch": "nodemon index.js",
-        "dev": "concurrently \"yarn run start-watch\" \"cd client && yarn start\""
+        "dev": "concurrently \"yarn run start-watch\" \"cd client && yarn start\"",
+        "heroku-postbuild": "cd client && yarn --production=false && yarn run build"
     },
     "keywords": [],
     "author": "Leon Cheng",
